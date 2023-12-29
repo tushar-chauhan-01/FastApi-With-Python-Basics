@@ -1,0 +1,109 @@
+swagger: "2.0"
+info:
+  description: "This is for Sample "
+  version: "1.0.0"
+  title: "sample-service"
+host: "sample-dev-backend-auth-1111-uc.a.run.app"
+tags:
+- name: "sample"
+  description: "Its a sample"
+schemes:
+- "https"
+produces:
+  - application/json
+x-google-backend:
+  address: 
+  jwt_audience: 
+  protocol: h2
+paths:
+  
+  /hello:
+    get:
+      tags:
+      - "Greetings"
+      summary: "say hello"
+      description: "say hello"
+      operationId: "hello"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Input Parameters"
+        description: "Fill All Required Info."
+        required: true
+        schema:
+          $ref: "#/definitions/hello"
+      responses:
+        "404":
+          description: "Failure"
+        "200":
+          description: "Success"
+        "400":
+          description: "Exception"
+
+  /helloBack:
+    post:
+      tags:
+      - "Greetings"
+      summary: "say hello back"
+      description: "say hello back"
+      operationId: "helloBack"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Input Parameters token in the header"
+        description: "Fill All Required Info."
+        required: true
+        schema:
+          $ref: "#/definitions/helloBack"
+      responses:
+        "404":
+          description: "Failure"
+        "200":
+          description: "Success"
+        "400":
+          description: "Exception"
+      security:
+      - auth0_jwk: []
+
+securityDefinitions:
+    auth0_jwk:
+      authorizationUrl: ""
+      flow: "implicit"
+      type: "oauth2"
+      # Replace YOUR-ACCOUNT-NAME with your Auth0 account name.
+      x-google-issuer: "service-account"
+      x-google-jwks_uri: "hijk"
+      # Optional. Replace YOUR-CLIENT-ID with your client ID
+      x-google-audiences: "service-url"
+      
+definitions:
+  
+  hello:
+    type: "object"
+    xml:
+      name: "hello"
+  
+  helloBack:
+    type: "object"
+    required:
+    - "firstName"
+    - "lastName"
+    - "age"
+    properties:
+      firstName:
+        type: "string"
+        example: "John"
+      lastName:
+        type: "string"
+        example: "Gustavo"
+      age:
+        type: "integer"
+        example: 27
+    xml:
+      name: "helloBack"           
